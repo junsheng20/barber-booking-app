@@ -1,7 +1,7 @@
 import { Carousel } from "react-bootstrap";
-import img1 from "/Users/junsheng/Desktop/barber-booking-app/src/images/image1.jpg";
-import img2 from "/Users/junsheng/Desktop/barber-booking-app/src/images/image2.jpg";
-import img3 from "/Users/junsheng/Desktop/barber-booking-app/src/images/image3.jpg";
+import img1 from "/src/images/image1.jpg";
+import img2 from "/src/images/image2.jpg";
+import img3 from "/src/images/image3.jpg";
 
 export default function HomePageBanner() {
   return (

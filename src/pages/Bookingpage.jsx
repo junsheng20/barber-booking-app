@@ -7,7 +7,7 @@ import {
   Navbar,
   Row,
 } from "react-bootstrap";
-import img5 from "/Users/junsheng/Desktop/barber-booking-app/src/images/image5.jpg";
+import img5 from "/src/images/image5.jpg";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../components/AuthProvider";
