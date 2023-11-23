@@ -1,0 +1,113 @@
+.carousel-indicators [data-bs-target] {
+    border-radius: 100% !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin-left: 10px !important;
+}
+
+* {
+    scroll-behavior: smooth;
+}
+
+.custom-form {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-date-input {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
+  }
+  
+  .custom-date-input:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: #4e89ae; /* Highlight border color on focus */
+  }
+
+  /* Styles for the footer */
+
+.footer {
+    background-color: #fff;
+    color: #333;
+    padding: 40px 0;
+  }
+  
+  .footer h5 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .footer p {
+    margin-bottom: 10px;
+  }
+  
+  .footer ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer ul li {
+    margin-bottom: 8px;
+  }
+  
+  .footer ul li a {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .footer .social-icons {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer .social-icons li {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  .footer .social-icons li a {
+    color: #333;
+    font-size: 20px;
+    text-decoration: none;
+  }
+  
+  /* Adjust icon colors for different social media platforms */
+  .footer .social-icons li a.facebook:hover {
+    color: #3b5998;
+  }
+  
+  .footer .social-icons li a.twitter:hover {
+    color: #1da1f2;
+  }
+  
+  .footer .social-icons li a.instagram:hover {
+    color: #c13584;
+  }
+
+  .booking-card {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .detail {
+    margin-bottom: 10px;
+  }
+  
+  .icons {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  /* Additional styles for buttons */
+  .icons button {
+    margin-top: 10px;
+    padding: 5px 12px;
+  }
+  
+  
