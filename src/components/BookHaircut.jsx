@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import img4 from "/Users/junsheng/Desktop/barber-booking-app/src/images/image4.jpg";
+import img4 from "/src/images/image4.jpg";
 
 export default function BookHaircut() {
   return (
