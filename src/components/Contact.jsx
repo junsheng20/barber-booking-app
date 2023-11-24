@@ -1,6 +1,6 @@
 export default function Contact() {
   return (
-    <footer className="footer">
+    <footer className="footer" id="contact">
       <div className="container">
         <div className="row">
           <div className="col-md-4">
