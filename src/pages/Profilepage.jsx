@@ -10,6 +10,7 @@ export default function Profilepage() {
   const auth = getAuth();
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
   const uid = currentUser ? currentUser.uid : null;
   const [bookings, setBookings] = useState();
   const handleLogout = () => {
@@ -30,6 +31,7 @@ export default function Profilepage() {
             // Handle successful response here
             setBookings(response.data);
             console.log(response.data);
+            setLoading(false);
           })
           .catch((error) => {
             // Handle errors from the request
@@ -57,14 +59,22 @@ export default function Profilepage() {
         </Container>
       </Navbar>
 
-      {bookings &&
+      {loading ? (
+        // Show a loading indicator while data is being fetched
+        <Container className="text-center mt-5">
+          <p>Loading...</p>
+        </Container>
+      ) : (
+        // Show bookings once data is fetched
+        bookings &&
         bookings.map((booking) => (
           <BookingCard
             key={booking.id}
             booking={booking}
             setBookings={setBookings}
           />
-        ))}
+        ))
+      )}
 
       <Container className="mt-5">
         <Button onClick={handleLogout} variant="dark">
