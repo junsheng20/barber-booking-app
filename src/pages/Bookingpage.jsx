@@ -6,6 +6,7 @@ import {
   Nav,
   Navbar,
   Row,
+  Spinner,
 } from "react-bootstrap";
 import img5 from "/src/images/image5.jpg";
 import { useContext, useEffect, useState } from "react";
@@ -24,9 +25,12 @@ export default function Bookingpage() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [uid, setUid] = useState("");
+  const [loading, setLoading] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true before making the API call
+
     const data = {
       location,
       service,
@@ -46,9 +50,10 @@ export default function Bookingpage() {
     } catch (error) {
       console.error(error);
       alert("Booking unsuccessful");
+    } finally {
+      setLoading(false); // Set loading to false when the API call completes (success or error)
     }
   };
-
   useEffect(() => {
     if (!currentUser) {
       navigate("/login");
@@ -182,9 +187,15 @@ export default function Bookingpage() {
           </Row>
 
           <div className="text-center">
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
+            {loading ? (
+              <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+              </Spinner>
+            ) : (
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            )}
           </div>
         </Form>
       </Container>
