@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  FacebookAuthProvider,
 } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { Button, Container, Form, Modal } from "react-bootstrap";
@@ -20,9 +21,19 @@ export default function Authpage() {
   const auth = getAuth();
   const { currentUser } = useContext(AuthContext);
 
-  const provider = new GoogleAuthProvider();
+  const handleFacebookLogin = async (e) => {
+    e.preventDefault(e);
+    const provider = new FacebookAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleGoogleLogin = async (e) => {
     e.preventDefault();
+    const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
     } catch (error) {
@@ -73,7 +84,7 @@ export default function Authpage() {
         <Button variant="outline-dark" onClick={handleGoogleLogin}>
           <i className="fa-brands fa-google"></i> Log in with Google
         </Button>
-        <Button variant="outline-dark">
+        <Button variant="outline-dark" onClick={handleFacebookLogin}>
           <i className="fa-brands fa-facebook"></i> Log in with Facebook
         </Button>
         <Button variant="outline-dark" onClick={handleShowLogin}>
