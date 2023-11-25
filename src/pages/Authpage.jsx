@@ -137,6 +137,7 @@ export default function Authpage() {
               Others will be able to find you by email or phone number, when
               provided, unless you choose otherwise here.
             </p>
+            <p>this is redux</p>
             <Button className="rounded-pill" type="submit">
               {modalShow === "SignUp" ? "Sign up" : "Log in"}
             </Button>
