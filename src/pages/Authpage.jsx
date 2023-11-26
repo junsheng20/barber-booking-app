@@ -138,6 +138,7 @@ export default function Authpage() {
               provided, unless you choose otherwise here.
             </p>
             <p>this is redux</p>
+            <p>this is redux</p>
             <Button className="rounded-pill" type="submit">
               {modalShow === "SignUp" ? "Sign up" : "Log in"}
             </Button>

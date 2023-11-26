@@ -1,11 +1,14 @@
-import axios from "axios";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Spinner } from "react-bootstrap";
 import EditBookingModal from "./EditBookingModal";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteBooking } from "../features/bookings/bookingsSlice";
 
-const BookingCard = ({ booking, setBookings }) => {
+const BookingCard = ({ booking }) => {
   const { location, service, barber, date, time, id } = booking;
   const [modalShow, setModalShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleModalShow = () => {
     setModalShow(true);
@@ -17,13 +20,8 @@ const BookingCard = ({ booking, setBookings }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(
-        `https://booking-system-api-leejunsheng7.sigma-school-full-stack.repl.co/booking/${id}`
-      );
-      setBookings((prevBookings) =>
-        prevBookings.filter((bookingItem) => bookingItem.id !== id)
-      );
-      console.log(response);
+      setLoading(true);
+      dispatch(deleteBooking(id));
     } catch (error) {
       console.error(error);
     }
@@ -34,23 +32,23 @@ const BookingCard = ({ booking, setBookings }) => {
       <Card>
         <Card.Body>
           <Card.Title className="text-center mb-4">Booking Details</Card.Title>
-          <Card.Text>
-            <div className="detail">
+          <div>
+            <div>
               <strong>Location:</strong> {location}
             </div>
-            <div className="detail">
+            <div>
               <strong>Service:</strong> {service}
             </div>
-            <div className="detail">
+            <div>
               <strong>Barber:</strong> {barber}
             </div>
-            <div className="detail">
+            <div>
               <strong>Date:</strong> {new Date(date).toLocaleDateString()}
             </div>
-            <div className="detail">
+            <div>
               <strong>Time:</strong> {time}
             </div>
-          </Card.Text>
+          </div>
           <div className="icons mt-4">
             <Button
               variant="outline-primary"
@@ -59,8 +57,19 @@ const BookingCard = ({ booking, setBookings }) => {
             >
               <i className="far fa-edit mr-3"></i> Edit
             </Button>
-            <Button variant="outline-danger" onClick={handleDelete}>
-              <i className="far fa-trash-alt" /> Delete
+            <Button variant="danger" onClick={handleDelete}>
+              {loading ? (
+                <Spinner
+                  animation="border"
+                  role="status"
+                  style={{ height: "20px", width: "20px" }}
+                >
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              ) : (
+                <i className="far fa-trash-alt" /> // Show the trash icon when not deleting
+              )}{" "}
+              Delete
             </Button>
           </div>
         </Card.Body>
@@ -69,7 +78,6 @@ const BookingCard = ({ booking, setBookings }) => {
         show={modalShow}
         handleClose={handleClose}
         booking={booking}
-        setBookings={setBookings}
         setModalShow={setModalShow}
       />
     </div>

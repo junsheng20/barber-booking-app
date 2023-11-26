@@ -13,23 +13,27 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../components/AuthProvider";
 import Contact from "../components/Contact";
-import axios from "axios";
+import { createBooking } from "../features/bookings/bookingsSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Bookingpage() {
   const hours = Array.from({ length: 9 }, (_, i) => 9 + i);
   const navigate = useNavigate();
   const currentUser = useContext(AuthContext).currentUser;
+  const uid = currentUser ? currentUser.uid : null;
+
   const [location, setLocation] = useState("");
   const [service, setService] = useState("");
   const [barber, setBarber] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [uid, setUid] = useState("");
-  const [loading, setLoading] = useState("");
+
+  const loading = useSelector((state) => state.bookings.loading2);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true before making the API call
+    // Set loading to true before making the API call
 
     const data = {
       location,
@@ -41,24 +45,20 @@ export default function Bookingpage() {
     };
 
     try {
-      const response = await axios.post(
-        "https://booking-system-api-leejunsheng7.sigma-school-full-stack.repl.co/booking",
-        data
-      );
-      console.log(response);
+      // Dispatch the createBooking action
+      await dispatch(createBooking(data));
+      // If the dispatch is successful (no errors thrown), show the success alert
       alert("Booking successful");
     } catch (error) {
-      console.error(error);
-      alert("Booking unsuccessful");
-    } finally {
-      setLoading(false); // Set loading to false when the API call completes (success or error)
+      // If there's an error in dispatching createBooking, you can handle it here
+      alert("Booking failed");
+      console.error("Booking error:", error);
     }
   };
+
   useEffect(() => {
     if (!currentUser) {
       navigate("/login");
-    } else {
-      setUid(currentUser.uid);
     }
   }, [currentUser, navigate]);
   return (
@@ -176,7 +176,11 @@ export default function Bookingpage() {
                 aria-label="Select Time"
                 onChange={(e) => setTime(e.target.value)}
                 required
+                value={time}
               >
+                <option value="" disabled hidden>
+                  Choose a time
+                </option>
                 {hours.map((hour) => (
                   <option key={hour} value={`${hour}:00:00`}>
                     {hour}:00

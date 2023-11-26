@@ -1,13 +1,14 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import { Modal, Button, Form, Row, Col, Spinner } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { updateBooking } from "../features/bookings/bookingsSlice";
 
 // EditBookingModal component
 export default function EditBookingModal({
   booking,
   show,
   handleClose,
-  setBookings,
+  // setBookings,
   setModalShow,
 }) {
   // Populate form fields with booking details when the modal is shown
@@ -17,6 +18,8 @@ export default function EditBookingModal({
   const [barber, setBarber] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const editButtonLoading = useSelector((state) => state.bookings.loading4);
+  const dispatch = useDispatch();
 
   const handleEdit = (e) => {
     e.preventDefault();
@@ -28,31 +31,28 @@ export default function EditBookingModal({
       time,
     };
 
-    axios
-      .put(
-        `https://booking-system-api-leejunsheng7.sigma-school-full-stack.repl.co/booking/${booking.id}`,
-        data
-      )
-      .then((response) => {
-        console.log(response);
-        // Assuming response.data contains the updated booking details
-        const updatedBooking = response.data;
+    console.log("Data before dispatch:", data);
 
-        // Update the bookings state with the modified booking
-        setBookings((prevBookings) => {
-          // Map through the existing bookings array and replace the updated booking
-          return prevBookings.map((booking) => {
-            if (booking.id === updatedBooking.id) {
-              return updatedBooking; // Replace the modified booking
-            }
-            return booking; // Return other bookings as they were
-          });
-        });
-        setModalShow(false);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      dispatch(updateBooking({ id: booking.id, data }));
+      setModalShow(false);
+    } catch (error) {
+      console.error(error);
+    }
+
+    // Assuming response.data contains the updated booking details
+    // const updatedBooking = response.data;
+
+    // Update the bookings state with the modified booking
+    // setBookings((prevBookings) => {
+    //   // Map through the existing bookings array and replace the updated booking
+    //   return prevBookings.map((booking) => {
+    //     if (booking.id === updatedBooking.id) {
+    //       return updatedBooking; // Replace the modified booking
+    //     }
+    //     return booking; // Return other bookings as they were
+    //   });
+    // });
   };
 
   useEffect(() => {
@@ -164,7 +164,17 @@ export default function EditBookingModal({
 
           <div className="text-center">
             <Button variant="primary" type="submit">
-              Submit
+              {editButtonLoading ? (
+                <Spinner
+                  animation="border"
+                  role="status"
+                  style={{ height: "20px", width: "20px" }}
+                >
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              ) : (
+                "Submit"
+              )}
             </Button>
           </div>
         </Form>
