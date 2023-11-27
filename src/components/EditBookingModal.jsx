@@ -18,10 +18,10 @@ export default function EditBookingModal({
   const [barber, setBarber] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const editButtonLoading = useSelector((state) => state.bookings.loading4);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const handleEdit = (e) => {
+  const handleEdit = async (e) => {
     e.preventDefault();
     const data = {
       location,
@@ -32,14 +32,14 @@ export default function EditBookingModal({
     };
 
     console.log("Data before dispatch:", data);
-
+    setLoading(true);
     try {
-      dispatch(updateBooking({ id: booking.id, data }));
+      await dispatch(updateBooking({ id: booking.id, data }));
+      setLoading(false);
       setModalShow(false);
     } catch (error) {
       console.error(error);
     }
-
     // Assuming response.data contains the updated booking details
     // const updatedBooking = response.data;
 
@@ -164,7 +164,7 @@ export default function EditBookingModal({
 
           <div className="text-center">
             <Button variant="primary" type="submit">
-              {editButtonLoading ? (
+              {loading ? (
                 <Spinner
                   animation="border"
                   role="status"
